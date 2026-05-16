@@ -1,11 +1,10 @@
 import telebot
 import os
 from dotenv import load_dotenv
-from transliterate import to_latin, to_cyrillic
+from transliterate import to_cyrillic, to_latin
 
 load_dotenv()
 
-from transliterate import to_latin, to_cyrillic
 TOKEN=os.getenv("BOT_TOKEN")
 bot = telebot.TeleBot(TOKEN, parse_mode=None) 
 
