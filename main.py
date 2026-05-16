@@ -1,0 +1,28 @@
+import telebot
+from transliterate import to_latin, to_cyrillic
+TOKEN=7661476880;AAEaaKt9riwBtbTA-XpYYBlr_BzK7gZX2Sc
+bot = telebot.TeleBot(TOKEN, parse_mode=None) 
+
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+  bot.reply_to(message, "Assalomu aleykum xush kelibsiz! Sizga qanday yozdam kerak?")
+  
+@bot.message_handler(func=lambda m: True)
+def echo_all(message):
+  text=message.text
+  if text.isascii():
+    bot.reply_to(message, to_cyrillic(text))
+  else:
+      bot.reply_to(message,to_latin(text))  
+
+
+bot.infinity_polling()
+
+# s = input()
+# if s.isascii():
+#     print(transliterate.to_cyrillic(s))
+# else:
+#   print(transliterate.to_latin(s))
+
+
+
