@@ -1,30 +1,26 @@
 import telebot
-import os
+from telebot import types
+import os 
 from dotenv import load_dotenv
-from transliterate import to_cyrillic, to_latin
 
-load_dotenv()
+load_dotenv() 
 
 TOKEN = os.getenv("BOT_TOKEN")
-bot = telebot.TeleBot(TOKEN, parse_mode=None)
+
+bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-	bot.reply_to(message, "Assalom alaykum, botimizga xush kelibsiz")
-	
-@bot.message_handler(func=lambda m: True)
-def echo_all(message):
-	# print(message)
-	text = message.text
-	if text.isascii():
-		bot.reply_to(message, to_cyrillic(text))
-	else:
-		bot.reply_to(message, to_latin(text))
-	
-bot.infinity_polling()
+	# bot.reply_to(message, "Howdy, how are you doing?")
+	keyboard = types.ReplyKeyboardMarkup()
+	btn1 = types.KeyboardButton('About me')
+	btn2 = types.KeyboardButton('Contact')
+	keyboard.add(btn1, btn2)
+	bot.send_message(message.chat.id, "Assalomu aleykum", reply_markup=keyboard)
+	bot.send_message(message.chat.id, "Assalomu aleykum")
 
-# s = input()
-# if s.isascii():
-#     print(to_cyrillic(s))
-# else:
-#     print(to_latin(s))
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+	bot.reply_to(message, message.text)
+
+bot.infinity_polling()
